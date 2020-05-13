@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+<style>
+.form{
+    text-align: center;
+}
+</style>
+
+</head>
+<body>
+    
+<form onsubmit="req(event)" class="form">
+<h1>Enter your time</h1>
+<h2>Machine Address</h2>
+<input type="text" id="ip" required>
+<h2>hour</h2>
+<input type="number" id="hour" required>
+<h2>mintue</h2>
+<input type="number" id="min" required>
+<br>
+<button type="submit">Set Time</button>
+</form>
+
+<script>
+function req(event) {
+var ip = document.getElementById("ip").value;
+var hour = document.getElementById("hour").value;
+var min =  document.getElementById("min").value;
+let requestURL = 'http://'+ip+'/toggle?hour='+hour+'&min='+min; 
+let request = new XMLHttpRequest();
+request.open('GET', requestURL);
+// request.responseType = 'json';
+request.send();
+event.preventDefault();
+}
+
+// request.onload = function() {
+//   const superHeroes = request.response;
+//   populateHeader(superHeroes);
+//   showHeroes(superHeroes);
+// }
+</script>
+
+</body>
+</html>
