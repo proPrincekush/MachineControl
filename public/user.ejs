@@ -9,5 +9,25 @@
     <h1>Status:<%= data.state%></h1>
     <h2>Visitors:<%= data.visitors %></h2>
     <h2>Temperature: <%= data.temp%></h2>
+
+    <form action="" method="post" id="form">
+        <% if (data.state=="off"){ var machine = "Turn On Machine"} else{machine="Turn off machine"}%>
+
+    <button type="submit" onclick="route()" id="btn"><%= machine %></button>
+    </form>
+
+<script>
+function route(){
+ <% if (data.state=="off"){ %>
+document.getElementById("form").setAttribute("action","/machineOn");
+<% }else{ %>
+    document.getElementById("form").setAttribute("action","/machineOff");
+<% } %>
+
+}
+</script>
+
+
+
 </body>
 </html>
