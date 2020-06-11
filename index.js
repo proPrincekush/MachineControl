@@ -6,10 +6,10 @@ const nodemailer = require("nodemailer");
 const app = express();
 
 //// firebase firestore system /////////////////////////////////////////////////////////
-var serviceAccount = require("./iotp-692b6-firebase-adminsdk-f09eb-ad06b9590d.json");
+var serviceAccount = require("./mailerservice-eac26-firebase-adminsdk-emfg7-80f01c0868.json");
 var firebaseAdmin = admin.initializeApp({
     credential:admin.credential.cert(serviceAccount),
-    databaseURL:"https://iotp-692b6.firebaseio.com"
+    databaseURL:"https://mailerservice-eac26.firebaseio.com"
 })
 let database = firebaseAdmin.database();
 
@@ -35,19 +35,20 @@ app.get("/",function(req,res){
 
 
 let userOtp ;
+let globalData;
+var machine;
 app.post("/mail",function(req,res){
-  
-        const mailAdd = req.body.Email;
-        console.log(mailAdd);
+        
+        const machineId = req.body.machine;
+            machine =machineId;
         console.log(req.body.machine);
-        data(req.body.machine);
-        // console.log(globalData); 
-        mailer(mailAdd); //send the mail
+        data(machineId); /////   1
         var otpBox = "visible";
         var idBox = "hidden";
         var route =  "/otpCheck"
         res.render("home.ejs",{otpBox:otpBox,route:route,idBox:idBox});
-    
+        
+        
 })
 
 app.post("/otpCheck",function(req,res){
@@ -60,9 +61,40 @@ app.post("/otpCheck",function(req,res){
     }
 })
 
+app.post("/machineOn",function(req,res){
+    // if(globalData.state=="off")
+    // {
+        let restRef =database.ref("/"+machine);
+        restRef.update({state:"on"});
+        restRef.once("value",function(snapshot){
+        
+    res.render("user.ejs",{data:snapshot.val()})
+        })
+    // }
+    
+    
+})
 
-var globalData;
-function data(machine) {
+app.post("/machineOff",function(req,res){
+    
+        let restRef =database.ref("/"+machine);
+        restRef.update({state:"off"});
+        restRef.once("value",function(snapshot){
+        
+    res.render("user.ejs",{data:snapshot.val()})
+        })
+    
+    
+})
+
+
+
+
+
+
+
+
+  function data (machine) {
     let restRef=database.ref("/"+machine);
 
     restRef.once("value",function(snapshot){
@@ -73,9 +105,9 @@ function data(machine) {
             RestNames={}
         }
 
-        console.log(globalData);
-      
-        return true;
+        console.log(globalData.user);
+        mailer(globalData.user);
+        
     })
 }
 
@@ -84,13 +116,15 @@ function mailer(mailAdd) {
     var transporter = nodemailer.createTransport({
         service:"gmail",
         auth:{
-            user: "princetechspacer@gmail.com",
-            pass:""
+            user: "simpleMailService2@gmail.com",
+            pass:"#Simple@mail+"
         }
     });
     userOtp = Math.floor(Math.random(10)*1000000);
     console.log(userOtp);
-    
+        
+        
+        
     var mailOptions={
         from:"princetechspacer@gmail.com",
         to:mailAdd,
