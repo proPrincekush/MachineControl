@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nodemailer</title>
+</head>
+<body>
+    <form action= <%= route %> method="POST">
+    
+        <label for="mailInput">Machine Credentials</label>
+        <!-- <input type="Email" name= "email"> -->
+        <input type="text" placeholder=" enter machine id" name= "machine" style="visibility:<%= idBox %>;" >
+        <input type="Email" placeholder=" enter Email id" name= "Email" style="visibility:<%= idBox %>;" >
+        <input type="number" style="visibility:<%= otpBox %>;" name="otp" >
+        <button type="submit">Submit</button>
+
+    </form>
+</body>
+</html>
