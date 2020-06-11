@@ -85,7 +85,7 @@ function mailer(mailAdd) {
         service:"gmail",
         auth:{
             user: "princetechspacer@gmail.com",
-            pass:"#Creative@tech++"
+            pass:""
         }
     });
     userOtp = Math.floor(Math.random(10)*1000000);
